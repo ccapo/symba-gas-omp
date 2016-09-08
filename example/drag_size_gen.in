@@ -1,0 +1,4 @@
+1.00 100.0 3.5			! rdragmin (km), rdragmax (km), differential index q
+2 1.48533E+00			! Number of size bins, M_total (M_Earth)
+1 1000 0.5 0.01 0.005	! i, nk, rho (g/cm^3), rmse, rmsi
+2 1000 0.5 0.02 0.010	! i, nk, rho (g/cm^3), rmse, rmsi

@@ -1,0 +1,92 @@
+******************************************************************************
+                 SUPPLEMENTARY USER'S MANUAL FOR SyMBA
+******************************************************************************
+Author: Hal Levison
+Date: January 26/00
+Last Revisions: 
+
+This file contains information on the differences between running
+SyMBA and other Swift integrators.  In particular, this file refers to
+SyMBA5.  If you are using another version, please contact us about the
+differences.  This file assumes a working knowledge of the information
+in README.first.
+
+Perhaps the most significant difference is that SyMBA does not integrate
+massless test particles, as such.  Thus, there is no TP.IN file.
+There is a class of particles that are like test particles, but they
+are entered in the pl.in file.  We describe those below.
+
+----------------------------------------------------------------------
+PARAMETER FILE (PAR.IN): 
+
+There is no difference in the structure of the par.in.  However, the
+output from the code is slightly different.  In the original Swift
+integrators the mass of the planets never changed, so we did not
+include the masses in the binary output files.  This is not true in
+SyMBA integrations.  So rather than changing the format of the
+binary_outputfile, we decided to add a new binary file that just
+contains the masses.  So, SyMBA will not only open the
+binary_outputfile file, but will open a file with the same name except
+that `mass.' is prepended to the beginning.  So in par.in, if you set
+the binary_outputfile to `bin.dat', SyMBA will write to `bin.dat' and
+`mass.bin.dat'.  Take a look at the follow_symba.f file in the tools
+directory to see how to read these files.
+
+----------------------------------------------------------------------
+PLANET FILE (PL.IN):
+
+There is a small, but important change to the pl.in file.  In the
+original pl.in file the first line of information for a particle
+either contains the mass of the particle if the logical variable
+lclose is false, or contains the mass of the particle and it physical
+radius if lclose is true.  Recall that lclose is a variable set in the
+par.in file that tell the code to check for close encounters between
+objects.
+
+The SyMBA algorithm uses the Hills sphere of a particle to determine
+when to decrease the timestep during the encounter.  The Hill's sphere
+of a particle is a function of the particle semi-major axis, so it is
+constantly changing.  We found through experimentation, that we cannot
+change this value during an integration and keep the code symplectic.
+Thus, we must set the `Hills sphere' once, at the beginning of the
+integration, and then hold it constant.  We also decided not to let
+SyMBA calculate this pseudo-Hills sphere at the beginning for itself,
+since this could cause difficulties if you wanted to re-start a run in
+the middle of an integration.  So, we decided to let the user worry
+about this and have the pseudo-Hills sphere entered by the user.
+
+So, the first line of the pl.in file for each particle must contain
+the pseudo-Hills sphere as the second element of the line.  The first
+element is the mass, and if lclose is true, then the third element is
+the physical radius.  So an entry for a particle looks like:
+  mass <pseudo-Hills sphere> <optional physical radius>
+    x          y                    z
+   vx         vy                   vz
+
+----------------------------------------------------------------------
+PARTICLE TYPES:
+
+As discussed above, SyMBA does not integrate massless test particles
+directly.  Instead, SyMBA5 supports two classes of particles based on
+mass.  If the mass of the particle is greater than some value, it is
+treated as a normal massive object.  However, if its mass is less than
+that value, it feels the effects of the big guys, but not other small
+guys.  The massive objects are also gravitationally effected by the
+small objects.
+
+So:
+
+* Big guys feel the other big guys.
+* Big guys feel the little guys.
+* Little guys feel the big guys.
+* Little guys DO NOT feel the other little guys.
+
+SyMBA5 will request mass which is the dividing line between the two
+classes of objects after you enter the name of the par.in and pl.in
+files.
+
+NOTE: In order to speed the code up, we require a certain order to the
+particles in the pl.in file.  The big guys must all come before the
+little guys.
+
+

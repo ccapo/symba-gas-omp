@@ -1,0 +1,31 @@
+This is a numerical integrator used to accurately compute the orbits
+of celestial bodies using the SyMBA algorithm. The code computes the
+mutual gravity between M large massive bodies and N small massive bodies,
+but does not compute the mutual gravity between the N small massive bodies.
+
+This code also includes a prescription for aerodynamic gas drag for small
+bodies, and tidal torques for the large bodies assuming the presence of a
+circumstellar gaseous disk.
+
+This code has also been parallelized using OpenMP directives, but is only
+designed to handle scenarios where M < 1000.
+
+=============================================================================
+
+Before compiling:
+
+- Ensure you have the latest version of the Intel Fortran compiler
+- Update the value of SWIFT_HOME in Makefile.Defines with the correct location of this directory
+- Ensure a link to the files Makefile.Defines and Makefile.fxdr exist in the fxdr directory
+- Ensure the file test_read_only.xdr in the fxdr directory has read-only permissions
+
+=============================================================================
+
+To compile:
+
+- make all
+
+To run the example:
+
+- Ensure a link to the programs and scripts in the bin directory exist in the example directory
+- @run_sim

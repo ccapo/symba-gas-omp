@@ -1,0 +1,4 @@
+3.0 10.0 1.5			! amin (AU), amax (AU), surface density power law
+-563981					! iseed
+1 1.0					! Big guys: nbig, rho(g/cm^3)
+1.0 5.0 2.0e-6 1.0e-6 0.0 0.0 0.0	! m (M_Earth), a (AU), e, i (deg), OM (deg), om (deg), M (deg)
