@@ -17,8 +17,9 @@ program gen_ray_size
 ! radius bin, and physical radius (km)
 !
 !---------------------------------------------------------------------------------
-use module_swift
-use module_interfaces
+use swift
+use util
+use orbel
 implicit none
 
 ! Parameters

@@ -7,8 +7,8 @@ program follow_symba
 ! an ascii file
 !
 !--------------------------------------------------------------------------
-use module_swift
-use module_interfaces
+use swift
+use io
 implicit none
 
 real(rk) :: mass(NTPMAX),dr
@@ -212,7 +212,7 @@ subroutine follow_plist(iflg,ifol,ifoln,plist,nbod,tg,tstop)
 ! discard_mass.dat file
 !
 !--------------------------------------------------------------------
-use module_swift
+use swift
 implicit none
 
 real(rk) :: tg,tstop
@@ -286,7 +286,7 @@ subroutine left_reorder(ig,im,nbod,plist)
 ! Reorders plist, some how, I guess ...
 !
 !-------------------------------------------------------------------
-use module_swift
+use swift
 implicit none
 
 integer(ik) :: i, ig, im, nbod, plist(nbod)

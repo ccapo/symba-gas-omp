@@ -10,14 +10,24 @@ circumstellar gaseous disk.
 This code has also been parallelized using OpenMP directives, but is only
 designed to handle scenarios where M < 1000.
 
+This code requires the following to be installed: 
+Intel Fortran compiler v13+ or GNU Fortran compiler v4.8+
+GNU C compiler (Optional, for fxdr binary output library)
+gnuplot (Optional)
+ImageMagick (Optional)
+ps2pdf (Optional)
+ffmpeg (Optional)
+
 =============================================================================
 
 Before compiling:
 
-- Ensure you have the latest version of the Intel Fortran compiler
 - Update the value of SWIFT_HOME in Makefile.Defines with the correct location of this directory
-- Ensure a link to the files Makefile.Defines and Makefile.fxdr exist in the fxdr directory
 - Ensure the file test_read_only.xdr in the fxdr directory has read-only permissions
+- Set the stack size to be unlimited:
+  ulimit -s unlimited
+- It may be necessary to provide a larger OpenMP stack size:
+  export OMP_STACKSIZE=256m
 
 =============================================================================
 
@@ -27,5 +37,5 @@ To compile:
 
 To run the example:
 
-- Ensure a link to the programs and scripts in the bin directory exist in the example directory
-- @run_sim
+- cd example; ./@run_swift
+- If gnuplot, ImageMagick or ffmpeg are not installed, then comment out the line with containing frame_symba

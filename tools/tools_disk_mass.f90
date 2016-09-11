@@ -2,8 +2,8 @@ program tools_disk_mass
 !
 ! Computes MMSN disk mass for given parameters
 !
-use module_swift
-use module_interfaces
+use swift
+use util
 implicit none
 
 ! Parameters

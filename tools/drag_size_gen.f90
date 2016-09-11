@@ -23,7 +23,7 @@ program drag_size_gen
 ! The plsml size assumed for gas drag calculations is called rdrag.
 !
 !---------------------------------------------------------------------------------------
-use module_swift
+use swift
 implicit none
 
 integer(ik), parameter :: kbinmax = 1000

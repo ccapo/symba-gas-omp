@@ -15,9 +15,6 @@
 #                (1) all     : builds modules, entire swift library, FXDR
 #                              library, swift drivers and tools
 #                (2) mod     : builds modules
-#                (3) lib     : builds entire swift library
-#                (4) libdir  : compiles local directory source and adds the
-#                              resulting objects to the swift library
 #                (5) fxdr    : builds FXDR library by invoking its makefile
 #                (6) drivers : builds swift drivers
 #                (7) tools   : builds swift tools
@@ -47,7 +44,7 @@
 
 include Makefile.Defines
 
-.PHONY : all mod lib libdir fxdr drivers tools bin clean force
+.PHONY : all fxdr mod drivers tools bin clean force
 
 % : %.f90 force
 	$(FORTRAN) $(FFLAGS) -I$(SWIFT_HOME)/include $< -o $@ \
@@ -59,7 +56,6 @@ all:
 	cd $(SWIFT_HOME); \
 	  make fxdr; \
 	  make mod; \
-	  make lib; \
 	  make drivers; \
 	  make tools
 
@@ -69,88 +65,10 @@ mod:
 	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
 	  ln -s $(SWIFT_HOME)/Makefile .; \
 	  $(FORTRAN) $(FFLAGS) -I$(SWIFT_HOME)/include -c *.f90; \
-	  $(AR) rs $(SWIFT_HOME)/lib/libswift.a *.o; \
+	  $(AR) $(SWIFT_HOME)/lib/libswift.a *.o; \
 	  $(RANLIB) $(SWIFT_HOME)/lib/libswift.a; \
 	  $(INSTALL_DATA) *.mod $(SWIFT_HOME)/include; \
 	  rm -f *.o *.mod
-
-lib:
-	cd $(SWIFT_HOME)/anal; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/coord; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/discard; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/mvs/drift; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/mvs/getacch; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/mvs/kickvh; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/helio; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/io; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/obl; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/orbel; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/rmvs; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/symba5; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/symba5_gas; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-	cd $(SWIFT_HOME)/util; \
-	  rm -f Makefile.Defines Makefile; \
-	  ln -s $(SWIFT_HOME)/Makefile.Defines .; \
-	  ln -s $(SWIFT_HOME)/Makefile .; \
-	  make libdir
-
-libdir:
-	$(FORTRAN) $(FFLAGS) -I$(SWIFT_HOME)/include -c *.f90; \
-	  $(AR) rs $(SWIFT_HOME)/lib/libswift.a *.o; \
-	  $(RANLIB) $(SWIFT_HOME)/lib/libswift.a; \
-	  rm -f *.o
 
 fxdr:
 	cd $(SWIFT_HOME)/fxdr; \
@@ -185,20 +103,6 @@ bin: *.f90
 
 clean:
 	cd $(SWIFT_HOME)/module;      rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/anal;        rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/coord;       rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/discard;     rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/mvs/drift;   rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/mvs/getacch; rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/mvs/kickvh;  rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/helio;       rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/io;          rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/obl;         rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/orbel;       rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/rmvs;        rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/symba5;      rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/symba5_gas;  rm -f Makefile.Defines Makefile
-	cd $(SWIFT_HOME)/util;        rm -f Makefile.Defines Makefile
 	cd $(SWIFT_HOME)/fxdr;        rm -f Makefile.Defines Makefile.fxdr
 	cd $(SWIFT_HOME)/main;        rm -f Makefile.Defines Makefile
 	cd $(SWIFT_HOME)/tools;       rm -f Makefile.Defines Makefile

@@ -4,9 +4,9 @@
 ,dt          = 0.500E+00    ! Time step (years)
 ,dtout       = 1.000E+02    ! Time interval between outputs (years)
 ,dtdump      = 1.000E+02    ! Time interval between dumps (years)
-,outfile     = xdr.dat      ! binary output filename
-,outtype     = XDR          ! Output format [ REAL | XDR ]
-,fopenstat   = UNKNOWN      ! Output status [ NEW | UNKNOWN | APPEND ]
+,outfile     = "xdr.dat"    ! binary output filename
+,outtype     = "XDR"        ! Output format [ REAL | XDR ]
+,fopenstat   = "UNKNOWN"    ! Output status [ NEW | UNKNOWN | APPEND ]
 ,lenergy     = F            ! Flag to compute the system's energy and angular momentum [ T | F ]
 ,ljacobi     = F            ! Flag to compute the system's Jacobi integral [ T | F ]
 /
@@ -27,7 +27,7 @@ mtiny        = 1.0E-01      ! Smallest mass to self-gravitate (M_Earth)
 /
 
 &gas_params
- lgas        = T            ! Flag to include aerodynamic and Type-I gas drag [ T | F ]
+ lgas       = T             ! Flag to include aerodynamic and Type-I gas drag [ T | F ]
 ,deng0s     = 1.400E-09     ! Gas volume density at 1 AU (g/cm^3), fiducial: 1.4e-9 (Hayashi MMSN)
 ,gpower     = 2.750E+00     ! Gas density power-law exponent, fiducial: 2.75 (Hayashi MMSN)
 ,zscale     = 5.000E-02     ! Gas disk scale height (AU) at 1 AU, fiducial: 0.047 (Hayashi MMSN)

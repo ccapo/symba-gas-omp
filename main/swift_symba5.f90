@@ -16,8 +16,11 @@ program swift_symba5
 ! Authors:  Hal Levison \& Martin Duncan
 ! Date:    11/21/96
 ! Last revision: 12/27/96
-use module_swift
-use module_interfaces
+use swift
+use util
+use io
+use discard
+use symba5
 implicit none
 
 integer(ik) :: nbod,i1st,i,id,nbodm,nbodo

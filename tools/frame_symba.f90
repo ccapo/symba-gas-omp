@@ -7,8 +7,10 @@ program frame_symba
 ! and writes to separate ascii files
 !
 !----------------------------------------------------------------------------
-use module_swift
-use module_interfaces
+use swift
+use orbel
+use io
+use symba5
 implicit none
 
 real(rk) :: mass(NTPMAX), rdrag(NTPMAX)
@@ -21,7 +23,7 @@ integer(ik) :: nbod, ierr, ialpha, nbodm
 integer(ik) :: iflgchk, iu, nleft, i, j, id, ium, iur
 
 real(rk) :: t0, tstop, dt, dtout, dtdump
-real(rk) :: t, gm, mtiny, dtdelay = 0.1_rk
+real(rk) :: t, gm, mtiny, dtdelay = 5.0_rk
 
 real(rk) :: rmin, rmax, rmaxu, qmin, rpl(NTPMAX), rhill(NTPMAX)
 real(rk) :: a, e, inc, capom, omega, capm, j2rp2, j4rp4, temp
@@ -312,12 +314,10 @@ outer: do
         status = system("rm plsml.dat embryo.dat")
 
         write(*,'(a)') '*** Make Movie ***'
-        !write(cmd,'(a)') "./@make_movie"
-        write(cmd,'(a15,f6.1,a)') "convert -delay ", 100.0_rk*dtdelay, " *.png movie.gif && rm *.png &> /dev/null"
+        !write(cmd,'(a,f6.1,a)') "convert -delay ", 100.0_rk*dtdelay, " *.png movie.gif && rm *.png &> /dev/null"
+        write(cmd,'(a,f6.1,a)') "ffmpeg -r ", dtdelay, " -i 'frame_%04d.png' -y -r 25 'movie.mpg' >/dev/null 2>&1"
         status = system(trim(cmd))
-
-        !write(*,'(a)') '*** Remove PNG ***'
-        !status = system("rm *.png")
+        status = system("rm *.png")
         exit outer
 
       else

@@ -17,8 +17,11 @@ program swift_symba5_gas
 ! Date:    11/21/96
 ! Last revision: 12/27/96
 !---------------------------------------------------------------------------------
-use module_swift
-use module_interfaces
+use swift
+use util
+use io
+use discard
+use symba5_gas
 implicit none
 
 integer(ik) :: nbod,i1st,i,id,nbodm,nbodo
@@ -131,7 +134,7 @@ else
 
 end if
 
-! must initize discard io routine
+! must initialize discard io routine
 if(btest(iflgchk,4)) then ! bit 4 is set
 
   call io_discard_mass(0,t,0,mass(1),rpl(1),xh(1),yh(1),zh(1),vxh(1),vyh(1),vzh(1),iud,-1,fopenstat)

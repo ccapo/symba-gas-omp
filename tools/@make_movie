@@ -1,6 +1,0 @@
-#!/bin/csh
-#
-# Creates a mpeg movie from from a series of png files
-#
-avconv -y -r 25 -i frame_%04d.png movie.mpg >& /dev/null
-

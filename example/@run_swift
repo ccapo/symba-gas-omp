@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Example script
+#
+# NB: Ensure a link to each program from the bin directory, including the two script @plot_frame and @make_movie
+
+rm -f drag_size_gen
+rm -f gen_ray_size
+rm -f swift_symba5_gas
+rm -f follow_symba
+rm -f frame_symba
+rm -f @plot_frame
+
+rm -f *.dat
+rm -f pl.in
+rm -f *.mpg
+
+ln -s ../bin/drag_size_gen .
+ln -s ../bin/gen_ray_size .
+ln -s ../bin/swift_symba5_gas .
+ln -s ../bin/follow_symba .
+ln -s ../bin/frame_symba .
+ln -s ../bin/@plot_frame .
+
+# Generate the size distribution information
+./drag_size_gen < drag_size_gen.in
+
+# Generate pl.in file using size distribution information
+./gen_ray_size < gen_ray_size.in
+
+# Run the simulation
+./swift_symba5_gas
+
+# Extract the history for the planet (Sun = 1, First body = 2, Second body = 3, ...)
+./follow_symba 2
+
+# Generate a movie illustrating the evolution of each particle's mass, eccentricity and inclination as a function of semi-major axis
+# This program relies on two scripts: @plot_frame and @make_movie
+# In turn these scripts assume the following are installed: gnuplot, convert (imagemagick) and avconv (libav)
+# If these are not installed, then either comment out the statements to these scripts, or modify them to suit your needs.
+./frame_symba 50 2.0 12.0 1.0 1.0 2.0 1.0

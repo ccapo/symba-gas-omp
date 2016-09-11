@@ -63,8 +63,8 @@ PLACE_FOR_HEADER  = $(SWIFT_HOME)/include
 
 libfxdr.a: $(OBJS)
 	rm -f libfxdr.a
-	$(AR) rs libfxdr.a $(OBJS)
-	#$(RANLIB) libfxdr.a
+	$(AR) libfxdr.a $(OBJS)
+	$(RANLIB) libfxdr.a
 	@echo "Now do 'make test' to check the library"
 
 test: libfxdr.a test.F
